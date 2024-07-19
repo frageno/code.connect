@@ -8,6 +8,8 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
+import Image from "next/image";
+
 
 interface Event {
     id: number;
@@ -19,8 +21,7 @@ interface Event {
     };
     date: string;
     link: string;
-}
-  
+} 
 
 const EventsGrid = () => {
     const [events, setEvents] = useState<Event[]>([]);
@@ -37,12 +38,15 @@ const EventsGrid = () => {
                 }
         
                 const data = await response.json();
+                // console.log(data);
+                // const filteredEvents = data.filter(event => event._venue_country_name.includes('Spain'));
                 setEvents(data);
-                console.log(data);
-                setLoading(false);
+
             } catch (error: any) {
                 console.error('Error fetching WordCamp data:', error);
                 setError(error);
+                setLoading(false);
+            } finally {
                 setLoading(false);
             }
           }
@@ -66,12 +70,16 @@ const EventsGrid = () => {
         <div className="col-span-full">No events available</div>
       ) : (
         events.map(event => (
-          <Card key={event.id}>
+          <Card className="cursor-pointer hover:shadow-xl hover:scale-105 transition-all duration-300 border-b-2 border-transparent hover:border-b-primary" key={event.id}>
             <CardHeader>
-              <CardTitle>{event.title.rendered}</CardTitle>
+              <Image src="/assets/images/wp.png" height={130} width={130} alt="wp" />
             </CardHeader>
             <CardContent>
-              <p>Event Date: {new Date(event.date).toLocaleDateString()}</p>
+              <CardTitle className="events-title">{event.title.rendered}</CardTitle>
+              <p className="flex items-center pt-2 gap-x-2">
+                <Image src="/assets/icons/calendar.svg" height={20} width={20} alt="wp" />
+                 {new Date(event.date).toLocaleDateString()}
+            </p>
             </CardContent>
           </Card>
         ))
