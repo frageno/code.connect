@@ -83,4 +83,12 @@
   .events-title {
     @apply text-[18px] leading-6;
   }
+
+  .headline-circle {
+    @apply z-10 pl-3;
+    &:before {
+      content: '';
+      @apply w-[40px] h-[40px] absolute left-0 top-0 rounded-full bg-primary -z-[1];
+    }
+  }
 }
